@@ -1,11 +1,5 @@
 package com.kata.orderme.order;
 
-import com.kata.orderme.price.SimplePriceManager;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import static com.kata.orderme.order.CheckOutTestHelper.defaultPriceRules;
 import static com.kata.orderme.order.CheckOutTestHelper.scanAndTotal;
 import static com.kata.orderme.order.CheckOutTestHelper.scanFreshly;
@@ -14,14 +8,18 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * @author hirsch
- * @version 2015-07-01, 22:34
- */
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import com.kata.orderme.price.SimplePriceManager;
+
 @RunWith(JUnit4.class)
 public class DefaultCheckOutTest {
 
     private CheckOut checkOut;
+    
 
     @Before
     public void createFreshCheckOut() {
@@ -44,7 +42,7 @@ public class DefaultCheckOutTest {
         checkOut.scan('A');
         checkOut.scan('A');
 
-        String toString = checkOut.toString();
+        final String toString = checkOut.toString();
         assertThat(toString, containsString("A=4"));
         assertThat(toString, containsString("B=1"));
         assertThat(toString, containsString("C=1"));
@@ -79,7 +77,7 @@ public class DefaultCheckOutTest {
     public void testIncremental() {
         final DefaultCheckOut checkOut = new DefaultCheckOut(defaultPriceRules(new SimplePriceManager()));
         assertNotNull(checkOut);
-
+        
         assertThat("" + checkOut, scanAndTotal(checkOut, ""), is(0));
         assertThat("" + checkOut, scanAndTotal(checkOut, "A"), is(50));
         assertThat("" + checkOut, scanAndTotal(checkOut, "B"), is(80));

@@ -1,34 +1,34 @@
 package com.kata.orderme.price;
 
-import com.google.common.collect.Lists;
-import org.junit.Test;
-
-import java.util.List;
-import java.util.Map;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+
+import com.google.common.collect.Lists;
+
 public class SimplePriceManagerTest {
 
     @Test
     public void createManager() {
-        PriceManager manager = new SimplePriceManager();
+        final PriceManager manager = new SimplePriceManager();
         assertNotNull(manager);
         assertTrue(manager.getPriceRules().isEmpty());
     }
 
     @Test
     public void addRuleFromGivenPricable() {
-        PriceManager manager = new SimplePriceManager();
+        final PriceManager manager = new SimplePriceManager();
         manager.addPricingRule(new UnitPrice('A', 4711));
 
-
         assertThat(manager.getPriceRules().size(), is(1));
-        PricingRule rule = manager.getPriceRules().get('A').get(0);
+        final PricingRule rule = manager.getPriceRules().get('A').get(0);
         assertNotNull(rule);
         assertThat(rule.getAmount(), is(1));
         assertThat(rule.getPrice(), is(4711));
@@ -36,15 +36,15 @@ public class SimplePriceManagerTest {
 
     @Test
     public void addMixedPricablesToRules() {
-        PriceManager manager = new SimplePriceManager();
+        final PriceManager manager = new SimplePriceManager();
         manager.addPricingRule(new UnitPrice('A', 4711));
         manager.addPricingRule(new SpecialPrice('A', 11, 3));
 
-        List<PricingRule> rules = manager.getPriceRules().get('A');
+        final List<PricingRule> rules = manager.getPriceRules().get('A');
         assertNotNull(rules);
         assertEquals(2, rules.size());
 
-        for (PricingRule p : rules) {
+        for (final PricingRule p : rules) {
             assertThat(p.getItem(), is('A'));
             if (p instanceof SpecialPrice) {
                 assertThat(p.getAmount(), is(3));
@@ -58,7 +58,7 @@ public class SimplePriceManagerTest {
 
     @Test
     public void addSimpleMixedPricablesToRulesAndCalculatePrices() {
-        PriceManager manager = new SimplePriceManager();
+        final PriceManager manager = new SimplePriceManager();
         manager.addPricingRule(new UnitPrice('A', 4711));
         manager.addPricingRule(new UnitPrice('C', 4712));
         manager.addPricingRule(new SpecialPrice('B', 45, 2));
@@ -68,7 +68,7 @@ public class SimplePriceManagerTest {
         assertNotNull(pricingRules);
         assertEquals(3, pricingRules.size());
 
-        for (Character item : Lists.newArrayList('A', 'B', 'C')) {
+        for (final Character item : Lists.newArrayList('A', 'B', 'C')) {
             assertTrue(pricingRules.containsKey(item));
         }
         assertEquals(2, pricingRules.get('B').size());

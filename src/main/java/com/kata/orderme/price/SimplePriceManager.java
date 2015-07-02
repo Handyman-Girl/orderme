@@ -1,10 +1,10 @@
 package com.kata.orderme.price;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Price calculation implementation where
@@ -14,15 +14,16 @@ public class SimplePriceManager implements PriceManager {
     private static final Integer DEFAULT_PRICE = 0;
 
     // simplified model: only one type of price exists per item
-    private Map<Character, PricingRule> complexRules = Maps.newHashMap();
-    private Map<Character, PricingRule> simpleRules = Maps.newHashMap();
+    private final Map<Character, PricingRule> complexRules = Maps.newHashMap();
+    private final Map<Character, PricingRule> simpleRules = Maps.newHashMap();
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Map<Character, List<PricingRule>> getPriceRules() {
         // merge both maps
-        Map<Character, List<PricingRule>> mergedRules = Maps.newHashMap();
+        final Map<Character, List<PricingRule>> mergedRules = Maps.newHashMap();
 
-        for (Map<Character, PricingRule> map : Lists.newArrayList(complexRules, simpleRules)) {
+        for (final Map<Character, PricingRule> map : Lists.newArrayList(complexRules, simpleRules)) {
             map.forEach((item, simpleRule) -> {
                         if (mergedRules.containsKey(item)) {
                             List<PricingRule> rulesPerKey = mergedRules.get(item);
@@ -48,13 +49,13 @@ public class SimplePriceManager implements PriceManager {
         // TODO Since none of the rules are checked semantically or for consistency
         // you may add useless rules such as:
         // 1 costs 2, 3 cost 10 that may yield to unexpected results when buying 4 pieces.
-        Character item = price.getItem();
+        final Character item = price.getItem();
 
         // add a pricing rule, overwrite any existing one
         if (price.getAmount() == 1) {
-            simpleRules.put(price.getItem(), price);
+            simpleRules.put(item, price);
         } else {
-            complexRules.put(price.getItem(), price);
+            complexRules.put(item, price);
         }
     }
 
@@ -72,11 +73,11 @@ public class SimplePriceManager implements PriceManager {
         }
 
         // CASE: Calculate mix from offer price and regular price taken amount into account
-        Integer unitPrice = simpleRules.get(item).getPrice();
-        PricingRule specialPrice = complexRules.get(item);
+        final Integer unitPrice = simpleRules.get(item).getPrice();
+        final PricingRule specialPrice = complexRules.get(item);
 
-        return (Integer) ((amount % specialPrice.getAmount()) * unitPrice) //
-                + (Integer) ((amount / specialPrice.getAmount()) * specialPrice.getPrice());
+        return (amount % specialPrice.getAmount()) * unitPrice
+                + (amount / specialPrice.getAmount()) * specialPrice.getPrice();
     }
 
     @Override

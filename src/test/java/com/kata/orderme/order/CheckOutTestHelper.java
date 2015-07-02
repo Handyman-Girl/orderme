@@ -1,7 +1,7 @@
 package com.kata.orderme.order;
 
-import com.kata.orderme.price.SimplePriceManager;
 import com.kata.orderme.price.PriceManager;
+import com.kata.orderme.price.SimplePriceManager;
 import com.kata.orderme.price.SpecialPrice;
 import com.kata.orderme.price.UnitPrice;
 
@@ -32,13 +32,13 @@ public final class CheckOutTestHelper {
 
     // always generate a new CheckOut
     public static Integer scanFreshly(String items) {
-        CheckOut checkout = new DefaultCheckOut(defaultPriceRules(new SimplePriceManager()));
+        final CheckOut checkout = new DefaultCheckOut(defaultPriceRules(new SimplePriceManager()));
         scan(checkout, items);
         return checkout.getTotal();
     }
 
     private static void scan(CheckOut checkOut, final String items) {
-        for (char item : items.toCharArray()) {
+        for (final char item : items.toCharArray()) {
             checkOut.scan(item);
         }
     }

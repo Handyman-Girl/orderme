@@ -3,8 +3,8 @@ package com.kata.orderme.price;
 public class UnitPrice implements PricingRule {
 
     private static Integer ONE = 1;
-    private Integer price;
-    private Character item;
+    private final Integer price;
+    private final Character item;
 
     public UnitPrice(Character item, Integer price) {
         this.item = item;

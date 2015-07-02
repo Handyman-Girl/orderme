@@ -2,9 +2,9 @@ package com.kata.orderme.price;
 
 public class SpecialPrice implements PricingRule {
 
-    private Integer amount;
-    private Integer price;
-    private Character item;
+    private final Integer amount;
+    private final Integer price;
+    private final Character item;
 
     public SpecialPrice(Character item, Integer price, Integer amount) {
         this.item = item;

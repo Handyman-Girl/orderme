@@ -7,7 +7,7 @@ import java.util.Map;
  * Interface defines how to calculate prices and handle pricing rules per shopping item.
  */
 public interface PriceManager {
-
+	
     /**
      * @return pricing rules per item and combines implementation-specific pricing rules.
      */

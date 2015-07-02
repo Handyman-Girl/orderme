@@ -1,14 +1,16 @@
 package com.kata.orderme.price;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import org.junit.Test;
 
 public class UnitPriceTest {
     @Test
     public void createPricingObjectsCheckInvariants() {
-        PricingRule p = new UnitPrice('A', 47);
+        final PricingRule p = new UnitPrice('A', 47);
 
         assertThat(p.getAmount(), is(1));
         assertThat(p.getItem(), is('A'));
